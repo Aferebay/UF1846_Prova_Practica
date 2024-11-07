@@ -1,0 +1,24 @@
+{
+  "name": "uf1846_prova_practica_jose_ceballos",
+  "version": "0.0.1",
+  "description": "Practica Final NodeJs",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node --watch ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aferebay/UF1846_Prova_Practica.git"
+  },
+  "author": "Jose Antonio Ceballos Fernandez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aferebay/UF1846_Prova_Practica/issues"
+  },
+  "homepage": "https://github.com/Aferebay/UF1846_Prova_Practica#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  }
+}
