@@ -6,12 +6,14 @@ const app = express();
 process.loadEnvFile(); 
 const PORT = process.env.PORT || 4000;
 
+// agregue los estaticos porque me no me estaba leyendo los css ni las imagenes a sugerencia de Ferran
 app.use(express.static(path.join(__dirname,"../public")));
 
 const ebooksPath = path.join(__dirname, '../data/ebooks.json');
+
 let ebooksData;
 
-
+// Esto es por si falla la lectura del archivo
 try {
     const data = fs.readFileSync(ebooksPath, 'utf8');
     ebooksData = JSON.parse(data);
@@ -20,11 +22,12 @@ try {
     process.exit(1);
 }
 
-
+// Solucion ruta raiz 1 punto
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
+//Solucion ruta api 1 punto
 app.get('/api', (req, res) => {
     const authors = ebooksData.map(book => ({
         autor_apellido: book.autor_apellido,
@@ -34,6 +37,7 @@ app.get('/api', (req, res) => {
     res.json(authors);
 });
 
+//solucion ruta /api/apellido/ 1 punto 
 app.get('/api/apellido/:apellido', (req, res) => {
     const authors = ebooksData.filter(book => book.autor_apellido.toLowerCase() === req.params.apellido.toLowerCase());
     if (authors.length > 0) {
@@ -43,6 +47,7 @@ app.get('/api/apellido/:apellido', (req, res) => {
     }
 });
 
+// solucion ruta : nombre y apellido completo 1 punto
 app.get('/api/nombre_apellido/:nombre/:apellido', (req, res) => {
     const nombre = req.params.nombre.toLowerCase();
     const apellido = req.params.apellido.toLowerCase();
@@ -58,6 +63,7 @@ app.get('/api/nombre_apellido/:nombre/:apellido', (req, res) => {
     }
 });
 
+// solucion ruta : nombre y apellido parcial 1 punto
 app.get('/api/nombre/:nombre', (req, res) => {
     const nombre = req.params.nombre.toLowerCase();
     const apellidoPartial = req.query.apellido;
@@ -78,6 +84,7 @@ app.get('/api/nombre/:nombre', (req, res) => {
     }
 });
 
+// Filtrar por año 1 punto
 app.get('/api/edicion/:year', (req, res) => {
     const year = parseInt(req.params.year);
     const booksByYear = ebooksData.flatMap(book => 
@@ -92,10 +99,12 @@ app.get('/api/edicion/:year', (req, res) => {
 });
 
 
+// Solucion ruta pantalla error
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, '../public/404.html'));
 });
 
+// Iniciar el servidor sin punto pero necesario :-)
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
